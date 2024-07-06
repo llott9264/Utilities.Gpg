@@ -1,55 +1,71 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PgpCore;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Utilities.Gpg.Tests")]
 namespace Utilities.Gpg;
 
 public class Gpg(IConfiguration configuration) : IGpg
 {
+	public string KeyFolderPath => configuration.GetValue<string>("Gpg:KeyFolderPath");
+
 	public async Task DecryptAsync(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword)
 	{
-		FileInfo privateKey = new($"{configuration.GetValue<string>("Gpg:KeyFolderPath")}{privateKeyName}");
-		EncryptionKeys decryptionKey = new(privateKey, privateKeyPassword);
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
-		PGP pgp = new(decryptionKey);
-		await pgp.DecryptFileAsync(inputFile, outputFile);
+
+		using (PGP pgp = GetPgpForDecryption(privateKeyName, privateKeyPassword))
+		{
+			await pgp.DecryptFileAsync(inputFile, outputFile);
+		}
 	}
 
 	public void Decrypt(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword)
 	{
-		FileInfo privateKey = new($"{configuration.GetValue<string>("Gpg:KeyFolderPath")}{privateKeyName}");
-		EncryptionKeys decryptionKey = new(privateKey, privateKeyPassword);
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
-		PGP pgp = new(decryptionKey);
-		pgp.DecryptFile(inputFile, outputFile);
 		
+		using (PGP pgp = GetPgpForDecryption(privateKeyName, privateKeyPassword))
+		{
+			pgp.DecryptFile(inputFile, outputFile);
+		}
 	}
 
 	public async Task EncryptAsync(string inputFileLocation, string outputFileLocation, string publicKeyName)
 	{
-
-		FileInfo publicKey = new($"{configuration.GetValue<string>("Gpg:KeyFolderPath")}{publicKeyName}");
-		EncryptionKeys encryptionKey = new(publicKey);
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
-		PGP pgp = new(encryptionKey);
-		await pgp.EncryptFileAsync(inputFile, outputFile);
+
+		using (PGP pgp = GetPgpForEncryption(publicKeyName))
+		{
+			await pgp.EncryptFileAsync(inputFile, outputFile);
+		}
 	}
 
 	public void Encrypt(string inputFileLocation, string outputFileLocation, string publicKeyName)
 	{
-		FileInfo publicKey = new($"{configuration.GetValue<string>("Gpg:KeyFolderPath")}{publicKeyName}");
-		EncryptionKeys encryptionKey = new(publicKey);
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
-		PGP pgp = new(encryptionKey);
-		pgp.EncryptFile(inputFile, outputFile);
+
+		using (PGP pgp = GetPgpForEncryption(publicKeyName))
+		{
+			pgp.EncryptFile(inputFile, outputFile);
+		}
 	}
 
-	public void EncryptAndSign(string inputFileLocation, string outputFileLocation, string privateKeyLocation,
-		string privateKeyPassword)
+	internal PGP GetPgpForDecryption(string privateKeyName, string privateKeyPassword)
 	{
-		throw new NotImplementedException();
+		FileInfo privateKey = new($"{KeyFolderPath}{privateKeyName}");
+		EncryptionKeys decryptionKey = new(privateKey, privateKeyPassword);
+		PGP pgp = new(decryptionKey);
+		return pgp;
+	}
+
+	internal PGP GetPgpForEncryption(string publicKeyName)
+	{
+		FileInfo publicKey = new($"{KeyFolderPath}{publicKeyName}");
+		EncryptionKeys encryptionKey = new(publicKey);
+		PGP pgp = new(encryptionKey);
+		return pgp;
 	}
 }

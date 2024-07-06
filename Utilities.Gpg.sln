@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities.Gpg", "Utilities.Gpg\Utilities.Gpg.csproj", "{88297AC1-D472-4897-99E5-A1965DE02180}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities.Gpg", "Utilities.Gpg\Utilities.Gpg.csproj", "{88297AC1-D472-4897-99E5-A1965DE02180}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities.Gpg.Tests", "Utilities.Gpg.Tests\Utilities.Gpg.Tests.csproj", "{C2E07CD1-E058-4F55-BACD-6B62A8E6B59D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{88297AC1-D472-4897-99E5-A1965DE02180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88297AC1-D472-4897-99E5-A1965DE02180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88297AC1-D472-4897-99E5-A1965DE02180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2E07CD1-E058-4F55-BACD-6B62A8E6B59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2E07CD1-E058-4F55-BACD-6B62A8E6B59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2E07CD1-E058-4F55-BACD-6B62A8E6B59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2E07CD1-E058-4F55-BACD-6B62A8E6B59D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
