@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PgpCore;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Utilities.Gpg.Tests")]
 namespace Utilities.Gpg;
 
 public class Gpg(IConfiguration configuration) : IGpg
@@ -53,7 +51,7 @@ public class Gpg(IConfiguration configuration) : IGpg
 		}
 	}
 
-	internal PGP GetPgpForDecryption(string privateKeyName, string privateKeyPassword)
+	private PGP GetPgpForDecryption(string privateKeyName, string privateKeyPassword)
 	{
 		FileInfo privateKey = new($"{KeyFolderPath}{privateKeyName}");
 		EncryptionKeys decryptionKey = new(privateKey, privateKeyPassword);
@@ -61,7 +59,7 @@ public class Gpg(IConfiguration configuration) : IGpg
 		return pgp;
 	}
 
-	internal PGP GetPgpForEncryption(string publicKeyName)
+	private PGP GetPgpForEncryption(string publicKeyName)
 	{
 		FileInfo publicKey = new($"{KeyFolderPath}{publicKeyName}");
 		EncryptionKeys encryptionKey = new(publicKey);
