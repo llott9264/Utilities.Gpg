@@ -20,16 +20,16 @@ namespace Utilities.Gpg.Tests
 		{
 			//Arrange
 			Gpg gpg = new(_baseConfiguration);
-			const string FileToDecrypt = @"GpgFolder\FileToDecrypt.txt.gpg";
-			const string FileToDecryptTxt = @"GpgFolder\FileToDecrypt.txt";
+			const string fileToDecrypt = @"GpgFolder\FileToDecrypt.txt.gpg";
+			const string fileToDecryptTxt = @"GpgFolder\FileToDecrypt.txt";
 
-			if (File.Exists(FileToDecryptTxt)) File.Delete(FileToDecryptTxt);
+			if (File.Exists(fileToDecryptTxt)) File.Delete(fileToDecryptTxt);
 
 			//Act
-			gpg.Decrypt(FileToDecrypt, FileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
+			gpg.Decrypt(fileToDecrypt, fileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
 
 			//Assert
-			Assert.True(File.Exists(FileToDecryptTxt));
+			Assert.True(File.Exists(fileToDecryptTxt));
 		}
 
 		[Fact]
@@ -37,16 +37,16 @@ namespace Utilities.Gpg.Tests
 		{
 			//Arrange
 			Gpg gpg = new(_baseConfiguration);
-			const string FileToDecrypt = @"GpgFolder\FileToDecryptAsync.txt.gpg";
-			const string FileToDecryptTxt = @"GpgFolder\FileToDecryptAsync.txt";
+			const string fileToDecrypt = @"GpgFolder\FileToDecryptAsync.txt.gpg";
+			const string fileToDecryptTxt = @"GpgFolder\FileToDecryptAsync.txt";
 
-			if (File.Exists(FileToDecryptTxt)) File.Delete(FileToDecryptTxt);
+			if (File.Exists(fileToDecryptTxt)) File.Delete(fileToDecryptTxt);
 
 			//Act
-			_ = gpg.DecryptAsync(FileToDecrypt, FileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
+			_ = gpg.DecryptAsync(fileToDecrypt, fileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
 
 			//Assert
-			Assert.True(File.Exists(FileToDecryptTxt));
+			Assert.True(File.Exists(fileToDecryptTxt));
 		}
 
 		[Fact]
