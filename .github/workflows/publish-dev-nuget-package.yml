@@ -37,7 +37,7 @@ jobs:
       run: dotnet pack /p:Version=${{ env.PACKAGE_VERSION }} --configuration ${{ env.BUILD_CONFIG }} --output ./artifacts
 
     - name: Publish NuGet Package
-      run: dotnet nuget push ./artifacts/Utilities.Gpg.${{ env.PACKAGE_VERSION }}.nupkg  --api-key ${{ env.GITHUB_NUGET_API_KEY }} --source ${{ env.GITHUB_NUGET_URL }} --skip-duplicate
+      run: dotnet nuget push ./artifacts/Utilities.Gpg.${{ env.PACKAGE_VERSION }}.nupkg --api-key ${{ env.GITHUB_NUGET_API_KEY }} --source ${{ env.GITHUB_NUGET_URL }} --skip-duplicate
   pull-request-not-merged:
     if: github.event.pull_request.merged == false
     name: Cancel Nuget Package Release
