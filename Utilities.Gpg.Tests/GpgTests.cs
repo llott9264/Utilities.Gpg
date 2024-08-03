@@ -2,12 +2,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace Utilities.Gpg.Tests
 {
-	public class GpgTests
+	public class GpgFileTests
 	{
 		private const string PrivateKeyName = "PrivateKey.asc";
 		private const string PrivateKeyPassword = "password";
 		private const string PublicKeyName = "PublicKey.asc";
-		
+
 		private readonly IConfiguration _baseConfiguration = new ConfigurationBuilder()
 			.AddInMemoryCollection(new Dictionary<string, string>()
 			{
@@ -26,7 +26,7 @@ namespace Utilities.Gpg.Tests
 			if (File.Exists(fileToDecryptTxt)) File.Delete(fileToDecryptTxt);
 
 			//Act
-			gpg.Decrypt(fileToDecrypt, fileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
+			gpg.DecryptFile(fileToDecrypt, fileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
 
 			//Assert
 			Assert.True(File.Exists(fileToDecryptTxt));
@@ -43,7 +43,7 @@ namespace Utilities.Gpg.Tests
 			if (File.Exists(fileToDecryptTxt)) File.Delete(fileToDecryptTxt);
 
 			//Act
-			_ = gpg.DecryptAsync(fileToDecrypt, fileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
+			_ = gpg.DecryptFileAsync(fileToDecrypt, fileToDecryptTxt, PrivateKeyName, PrivateKeyPassword);
 
 			//Assert
 			Assert.True(File.Exists(fileToDecryptTxt));
@@ -58,10 +58,10 @@ namespace Utilities.Gpg.Tests
 			const string fileToEncryptGpg = @"GpgFolder\FileToEncrypt.txt.gpg";
 
 			if (File.Exists(fileToEncryptGpg)) File.Delete(fileToEncryptGpg);
-			
+
 			//Act
-			gpg.Encrypt(fileToEncrypt, fileToEncryptGpg, PublicKeyName);
-			
+			gpg.EncryptFile(fileToEncrypt, fileToEncryptGpg, PublicKeyName);
+
 			//Assert
 			Assert.True(File.Exists(fileToEncryptGpg));
 		}
@@ -73,11 +73,11 @@ namespace Utilities.Gpg.Tests
 			Gpg gpg = new(_baseConfiguration);
 			const string fileToEncryptAsync = @"GpgFolder\FileToEncryptAsync.txt";
 			const string fileToEncryptAsyncGpg = @"GpgFolder\FileToEncryptAsync.txt.gpg";
-			
+
 			if (File.Exists(fileToEncryptAsyncGpg)) File.Delete(fileToEncryptAsyncGpg);
 
 			//Act
-			_ = gpg.EncryptAsync(fileToEncryptAsync, fileToEncryptAsyncGpg, PublicKeyName);
+			_ = gpg.EncryptFileAsync(fileToEncryptAsync, fileToEncryptAsyncGpg, PublicKeyName);
 
 			//Assert
 			Assert.True(File.Exists(fileToEncryptAsyncGpg));
