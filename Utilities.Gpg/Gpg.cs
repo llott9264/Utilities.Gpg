@@ -7,7 +7,7 @@ public class Gpg(IConfiguration configuration) : IGpg
 {
 	public string KeyFolderPath => configuration.GetValue<string>("Gpg:KeyFolderPath");
 
-	public async Task DecryptAsync(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword)
+	public async Task DecryptFileAsync(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword)
 	{
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
@@ -18,18 +18,18 @@ public class Gpg(IConfiguration configuration) : IGpg
 		}
 	}
 
-	public void Decrypt(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword)
+	public void DecryptFile(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword)
 	{
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
-		
+
 		using (PGP pgp = GetPgpForDecryption(privateKeyName, privateKeyPassword))
 		{
 			pgp.DecryptFile(inputFile, outputFile);
 		}
 	}
 
-	public async Task EncryptAsync(string inputFileLocation, string outputFileLocation, string publicKeyName)
+	public async Task EncryptFileAsync(string inputFileLocation, string outputFileLocation, string publicKeyName)
 	{
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
@@ -40,7 +40,7 @@ public class Gpg(IConfiguration configuration) : IGpg
 		}
 	}
 
-	public void Encrypt(string inputFileLocation, string outputFileLocation, string publicKeyName)
+	public void EncryptFile(string inputFileLocation, string outputFileLocation, string publicKeyName)
 	{
 		FileInfo inputFile = new(inputFileLocation);
 		FileInfo outputFile = new(outputFileLocation);
@@ -51,6 +51,38 @@ public class Gpg(IConfiguration configuration) : IGpg
 		}
 	}
 
+	public async Task<string> DecryptAsync(string input, string privateKeyName, string privateKeyPassword)
+	{
+		using (PGP pgp = GetPgpForDecryption(privateKeyName, privateKeyPassword))
+		{
+			return await pgp.DecryptAsync(input);
+		}
+	}
+
+	public string Decrypt(string input, string privateKeyName, string privateKeyPassword)
+	{
+		using (PGP pgp = GetPgpForDecryption(privateKeyName, privateKeyPassword))
+		{
+			return pgp.Decrypt(input);
+		}
+	}
+
+	public async Task<string> EncryptAsync(string input, string publicKeyName)
+	{
+		using (PGP pgp = GetPgpForEncryption(publicKeyName))
+		{
+			return await pgp.EncryptAsync(input);
+		}
+	}
+
+	public string Encrypt(string input, string publicKeyName)
+	{
+		using (PGP pgp = GetPgpForEncryption(publicKeyName))
+		{
+			return pgp.Encrypt(input);
+		}
+	}
+	
 	private PGP GetPgpForDecryption(string privateKeyName, string privateKeyPassword)
 	{
 		FileInfo privateKey = new($"{KeyFolderPath}{privateKeyName}");

@@ -2,8 +2,12 @@
 
 public interface IGpg
 {
-	Task DecryptAsync(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword);
-	void Decrypt(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword);
-	Task EncryptAsync(string inputFileLocation, string outputFileLocation, string publicKeyName);
-	void Encrypt(string inputFileLocation, string outputFileLocation, string publicKeyName);
+	Task DecryptFileAsync(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword);
+	void DecryptFile(string inputFileLocation, string outputFileLocation, string privateKeyName, string privateKeyPassword);
+	Task EncryptFileAsync(string inputFileLocation, string outputFileLocation, string publicKeyName);
+	void EncryptFile(string inputFileLocation, string outputFileLocation, string publicKeyName);
+	Task<string> DecryptAsync(string input, string privateKeyName, string privateKeyPassword);
+	string Decrypt(string input, string privateKeyName, string privateKeyPassword);
+	Task<string> EncryptAsync(string input, string publicKeyName);
+	string Encrypt(string input, string publicKeyName);
 }
