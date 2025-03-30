@@ -107,7 +107,7 @@ public class GpgServiceRegistrationTests
 	}
 
 	[Fact]
-	public void AddGpgServices_CleanUpDirectoryHandler_VerifyMediatorHandlerExists()
+	public void AddGpgServices_DecryptFileCommandHandler_VerifyMediatorHandlerExists()
 	{
 		// Arrange
 		ServiceCollection services = new();
@@ -125,7 +125,7 @@ public class GpgServiceRegistrationTests
 	}
 
 	[Fact]
-	public void AddGpgServices_CreateDirectoryCommandHandler_VerifyMediatorHandlerExists()
+	public void AddGpgServices_EncryptFileCommandHandler_VerifyMediatorHandlerExists()
 	{
 		// Arrange
 		ServiceCollection services = new();
